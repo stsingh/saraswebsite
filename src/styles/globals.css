@@ -21,17 +21,40 @@ body {
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+/* Base Styles */
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Custom styles for specific components that don't have Tailwind equivalents */
+/* These are kept for backwards compatibility with components we didn't update */
+
+/* Utility classes for specific transition effects */
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+/* Active filter button style */
+.filter-button.active {
+  background-color: #333;
+}
+
+/* Product features spacing style for older components */
+.product-features {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.875rem;
+  color: #666;
+}
+
 /* Global styles */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
 }
 
 /* App Container Styles */
@@ -254,4 +277,19 @@ body {
   .nav-links {
     gap: 30px;
   }
+}
+
+/* Search and product container connection */
+.search-products-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-products-container form {
+  margin-bottom: 0 !important;
+}
+
+.search-products-container form input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }

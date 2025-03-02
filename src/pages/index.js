@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import Logo from '../components/Logo';
 import SearchBar from '../components/SearchBar';
 import Recommendations from '../components/Recommendations';
@@ -10,106 +11,138 @@ export default function Home({
   onSearch, 
   onLogoClick,
   products,
+  isTransitioning
 }) {
-  return (
-    <div className="main-content">
-      <div className="logo-section">
-        <h1 className="logo">SARAS</h1>
-        <p className="tagline">Find the Best Skincare in Seconds — Backed by Real Reviews, Not Hype.</p>
-      </div>
+  const pageVariants = {
+    initial: {
+      opacity: 0
+    },
+    animate: {
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        when: "beforeChildren"
+      }
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        duration: 0.3
+      }
+    }
+  };
 
-      <div className="search-section">
+  const logoVariants = {
+    initial: { 
+      y: -20,
+      opacity: 0 
+    },
+    animate: { 
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const searchVariants = {
+    initial: { 
+      y: 30,
+      opacity: 0 
+    },
+    animate: { 
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        delay: 0.2,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const recommendationsVariants = {
+    initial: { 
+      opacity: 0 
+    },
+    animate: { 
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        delay: 0.4,
+        staggerChildren: 0.1,
+        delayChildren: 0.5
+      }
+    }
+  };
+
+  const productVariants = {
+    initial: { 
+      y: 20,
+      opacity: 0 
+    },
+    animate: { 
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  return (
+    <motion.div 
+      className="text-center p-5 max-w-7xl mx-auto"
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageVariants}
+    >
+      <motion.div 
+        className="mb-16"
+        variants={logoVariants}
+      >
+        <h1 className="text-8xl font-bold tracking-wider mb-3 underline">SARAS</h1>
+        <p className="text-xl text-gray-600 italic mt-4">Find the Best Skincare in Seconds — Backed by Real Reviews, Not Hype.</p>
+      </motion.div>
+
+      <motion.div 
+        className="w-full max-w-4xl mx-auto mb-20"
+        variants={searchVariants}
+      >
         <SearchBar 
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           onSearch={onSearch}
           placeholder="Tell us about your ideal product..."
+          isTransitioning={isTransitioning}
         />
-      </div>
+      </motion.div>
 
-      <div className="recommendations-section">
-        <h2 className="recommendations-header">Recommendations</h2>
-        <div className="product-grid">
+      <motion.div 
+        className="w-full mt-20"
+        variants={recommendationsVariants}
+      >
+        <h2 className="text-4xl text-gray-800 mb-8 font-medium">Recommendations</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
           {products.slice(0, 3).map((product) => (
-            <div key={product.id} className="product-card">
-              <div className="placeholder-image"></div>
-              <p className="product-title">{product.title}</p>
-            </div>
+            <motion.div 
+              key={product.id} 
+              className="text-center"
+              variants={productVariants}
+            >
+              <div className="w-full aspect-square bg-gray-100 rounded-lg mb-4"></div>
+              <p className="text-base text-gray-800">{product.title}</p>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
 
-      <SideText />
-      <CartIcon />
-
-      <style jsx>{`
-        .main-content {
-          text-align: center;
-          padding: 20px;
-          max-width: 1400px;
-          margin: 0 auto;
-        }
-
-        .logo-section {
-          margin-bottom: 60px;
-        }
-
-        .logo {
-          font-size: 5rem;
-          font-weight: 700;
-          letter-spacing: 2px;
-          margin-bottom: 10px;
-        }
-
-        .search-section {
-          width: 100%;
-          max-width: 1000px;
-          margin: 0 auto 80px;
-          padding: 0;
-        }
-
-        .recommendations-section {
-          width: 100%;
-          margin-top: 80px;
-        }
-
-        .product-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 40px;
-          max-width: 1200px;
-          margin: 0 auto;
-        }
-
-        .product-card {
-          text-align: center;
-        }
-
-        .placeholder-image {
-          width: 100%;
-          aspect-ratio: 1;
-          background-color: #f0f0f0;
-          border-radius: 8px;
-          margin-bottom: 15px;
-        }
-
-        .product-title {
-          font-size: 1rem;
-          color: #333;
-        }
-
-        @media (max-width: 768px) {
-          .product-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-        @media (max-width: 480px) {
-          .product-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
-    </div>
+      {/* <SideText /> */}
+      {/* <CartIcon /> */}
+    </motion.div>
   );
 } 
