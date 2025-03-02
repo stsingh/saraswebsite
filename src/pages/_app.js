@@ -111,7 +111,6 @@ export default function App({ Component, pageProps }) {
     activeTab,
     setActiveTab,
     features,
-    products,
     brands,
     onLogoClick: handleLogoClick,
     isSearchActive,

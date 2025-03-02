@@ -19,7 +19,7 @@ function HomePage({ onSearch, searchQuery, setSearchQuery, onLogoClick }) {
             onSearch={onSearch}
           />
         </div>
-        <Recommendations />
+        {/* <Recommendations /> */}
       </div>
       <SideText />
       {/* <CartIcon /> */}

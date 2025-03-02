@@ -19,14 +19,14 @@ function SearchResults({ activeTab, setActiveTab, features, products, brands }) 
       </div>
 
       <div className="results-container">
-        <aside className="features-sidebar">
+        {/* <aside className="features-sidebar">
           <h2>Your Features</h2>
           <ul className="features-list">
             {features.map((feature, index) => (
               <li key={index}>{feature}</li>
             ))}
           </ul>
-        </aside>
+        </aside> */}
 
         <main className="search-results">
           {activeTab === 'products' ? (
