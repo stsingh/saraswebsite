@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
-import HomePage from './pages/HomePage';
-import ProductPage from './pages/ProductPage';
-import './App.css';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import '../styles/globals.css';
+import Navbar from '../components/Navbar';
 
-function App() {
+export default function App({ Component, pageProps }) {
+  const router = useRouter();
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('products');
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
   const handleSearch = (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     if (searchQuery.trim()) {
       setIsSearchExpanded(true);
       setIsSearchActive(true);
+      router.push({
+        pathname: '/products',
+        query: { search: searchQuery }
+      });
     }
   };
 
@@ -22,8 +27,10 @@ function App() {
     setIsSearchExpanded(false);
     setSearchQuery('');
     setActiveTab('products');
+    router.push('/');
   };
 
+  // Sample data from App.js
   const features = [
     '- Inexpensive',
     '- Wool',
@@ -71,30 +78,49 @@ function App() {
     { id: 5, name: 'LA ROCHE-POSAY' }
   ];
 
+  const enhancedPageProps = {
+    ...pageProps,
+    searchQuery,
+    setSearchQuery,
+    onSearch: handleSearch,
+    activeTab,
+    setActiveTab,
+    features,
+    products,
+    brands,
+    onLogoClick: handleLogoClick,
+    isSearchActive,
+    isSearchExpanded
+  };
+
   return (
     <div className={`app ${isSearchExpanded ? 'search-expanded' : ''}`}>
-      {isSearchActive ? (
-        <ProductPage 
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          onSearch={handleSearch}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          features={features}
-          products={products}
-          brands={brands}
-          onLogoClick={handleLogoClick}
-        />
-      ) : (
-        <HomePage 
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          onSearch={handleSearch}
-          onLogoClick={handleLogoClick}
-        />
-      )}
+      <div className="app-container">
+        <Navbar />
+        <Component {...enhancedPageProps} />
+      </div>
+      <style jsx global>{`
+        .app {
+          min-height: 100vh;
+          position: relative;
+          transition: all 0.3s ease;
+        }
+
+        .app-container {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 20px;
+        }
+
+        .app.search-expanded {
+          background-color: #f8f8f8;
+        }
+
+        .app.search-expanded .app-container {
+          max-width: none;
+          padding: 0;
+        }
+      `}</style>
     </div>
   );
-}
-
-export default App;
+} 
