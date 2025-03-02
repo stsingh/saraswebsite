@@ -1,0 +1,4 @@
+.env
+sarasvenv
+*__pycache__
+skincare-frontend/node_modules
